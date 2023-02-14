@@ -1,6 +1,6 @@
 import { forwardRef, InputHTMLAttributes } from 'react'
 
-interface InputNumberProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface InputNumberProps extends InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string
   classNameInput?: string
   classNameError?: string

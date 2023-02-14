@@ -4,13 +4,14 @@ import { Controller, useForm } from 'react-hook-form'
 import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 import Button from 'src/components/Button'
 import InputNumber from 'src/components/InputNumber'
-import RatingStars from 'src/pages/ProductList/RatingStars'
+import RatingStars from 'src/pages/ProductList/components/RatingStars'
 import path from 'src/constants/path'
 import { Category } from 'src/types/category.type'
 import { NoUndefinedField } from 'src/types/utils.type'
 import { Schema, schema } from 'src/utils/rules'
-import { QueryConfig } from '../ProductList'
+
 import omit from 'lodash/omit'
+import { QueryConfig } from 'src/hooks/useQueryConfig'
 
 interface AsideFilterProps {
   queryConfig: QueryConfig

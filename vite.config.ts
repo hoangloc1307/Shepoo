@@ -1,10 +1,11 @@
 import { defineConfig } from 'vite'
+import pluginRewriteAll from 'vite-plugin-rewrite-all'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), pluginRewriteAll()],
   server: {
     port: 3000,
   },
