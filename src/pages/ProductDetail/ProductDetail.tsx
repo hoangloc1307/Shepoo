@@ -1,12 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import DOMPurify from 'dompurify'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import { toast } from 'react-toastify'
 import productApi from 'src/apis/product.api'
 import purchaseApi from 'src/apis/purchase.api'
 import ProductRating from 'src/components/ProductRating'
 import QuantityController from 'src/components/QuantityController'
+import path from 'src/constants/path'
 import { purchasesStatus } from 'src/constants/purchase'
 import { Product as ProductType, ProductListConfig } from 'src/types/product.type'
 import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } from 'src/utils/utils'
@@ -16,6 +17,7 @@ export default function ProductDetail() {
   const [buyCount, setBuyCount] = useState(1)
   const [currentIndexImages, setCurrentIndexImages] = useState([0, 5])
   const [activeImage, setActiveImage] = useState('')
+  const navigate = useNavigate()
   const queryClient = useQueryClient()
   const { nameId } = useParams()
   const id = getIdFromNameId(nameId as string)
@@ -36,7 +38,7 @@ export default function ProductDetail() {
     () => (product ? product?.images.slice(...currentIndexImages) : []),
     [product, currentIndexImages],
   )
-  const cartMutation = useMutation(purchaseApi.addToCart)
+  const addToCartMutation = useMutation(purchaseApi.addToCart)
 
   useEffect(() => {
     if (product && product.images.length > 0) {
@@ -62,7 +64,6 @@ export default function ProductDetail() {
 
   const handleZoom = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const rect = event.currentTarget.getBoundingClientRect()
-
     const image = imageRef.current as HTMLImageElement
     const { naturalHeight, naturalWidth } = image
     const { offsetX, offsetY } = event.nativeEvent
@@ -84,7 +85,7 @@ export default function ProductDetail() {
   }
 
   const addToCart = () => {
-    cartMutation.mutate(
+    addToCartMutation.mutate(
       { product_id: product?._id as string, buy_count: buyCount },
       {
         onSuccess(data) {
@@ -95,6 +96,16 @@ export default function ProductDetail() {
         },
       },
     )
+  }
+
+  const buyNow = async () => {
+    const res = await addToCartMutation.mutateAsync({ product_id: product?._id as string, buy_count: buyCount })
+    const purchase = res.data.data
+    navigate(path.cart, {
+      state: {
+        purchaseId: purchase._id,
+      },
+    })
   }
 
   if (!product) return null
@@ -227,7 +238,10 @@ export default function ProductDetail() {
                   </svg>
                   Thêm vào giỏ hàng
                 </button>
-                <button className='fkex ml-4 h-12 min-w-[5rem] items-center justify-center rounded-sm bg-orange px-5 capitalize text-white shadow-sm outline-none hover:bg-orange/90'>
+                <button
+                  className='fkex ml-4 h-12 min-w-[5rem] items-center justify-center rounded-sm bg-orange px-5 capitalize text-white shadow-sm outline-none hover:bg-orange/90'
+                  onClick={buyNow}
+                >
                   Mua ngay
                 </button>
               </div>
