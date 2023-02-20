@@ -8,6 +8,13 @@ function testPriceMinMax(this: yup.TestContext<yup.AnyObject>) {
   return price_min !== '' || price_max !== ''
 }
 
+const handleConfirmPassword = (refString: string) => {
+  return yup
+    .string()
+    .required('Nhập lại password là bắt buộc')
+    .oneOf([yup.ref(refString)], 'Nhập lại password không đúng')
+}
+
 export const schema = yup.object({
   email: yup
     .string()
@@ -20,10 +27,7 @@ export const schema = yup.object({
     .required('Password là bắt buộc')
     .min(6, 'Password tối thiểu 6 ký tự')
     .max(160, 'Password tối đa 160 ký tự'),
-  confirm_password: yup
-    .string()
-    .required('Nhập lại password là bắt buộc')
-    .oneOf([yup.ref('password')], 'Nhập lại password không đúng'),
+  confirm_password: handleConfirmPassword('password'),
   price_min: yup.string().test({
     name: 'price-not-allowed',
     message: 'Giá không phù hợp',
@@ -45,7 +49,7 @@ export const userSchema = yup.object({
   date_of_birth: yup.date().max(new Date(), 'Hãy chọn một ngày trong quá khứ'),
   password: schema.fields['password'],
   new_password: schema.fields['password'],
-  confirm_password: schema.fields['confirm_password'],
+  confirm_password: handleConfirmPassword('new_password'),
 })
 
 export type Schema = yup.InferType<typeof schema>

@@ -5,8 +5,8 @@ import authApi from 'src/apis/auth.api'
 import path from 'src/constants/path'
 import { purchasesStatus } from 'src/constants/purchase'
 import { AppContext } from 'src/contexts/app.context'
+import { getAvatarUrl } from 'src/utils/utils'
 import Popover from '../Popover'
-import userImage from 'src/assets/images/user.svg'
 
 export default function NavHeader() {
   const { isAuthenticated, setIsAuthenticated, profile, setProfile } = useContext(AppContext)
@@ -74,7 +74,10 @@ export default function NavHeader() {
               >
                 Tài khoản của tôi
               </Link>
-              <Link to='/' className='block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500'>
+              <Link
+                to={path.historyPurchase}
+                className='block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500'
+              >
                 Đơn mua
               </Link>
               <button
@@ -88,7 +91,7 @@ export default function NavHeader() {
         >
           <div className='mr-2 h-6 w-6 flex-shrink-0'>
             <img
-              src={profile?.avatar || userImage}
+              src={getAvatarUrl(profile?.avatar)}
               alt='avatar'
               className='h-full w-full rounded-full stroke-white object-cover'
             />
