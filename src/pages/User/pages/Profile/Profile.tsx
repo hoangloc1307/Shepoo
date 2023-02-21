@@ -12,7 +12,7 @@ import { AppContext } from 'src/contexts/app.context'
 import { ErrorResponse } from 'src/types/utils.type'
 import { setProfileToLocalStorage } from 'src/utils/auth'
 import { userSchema, UserSchema } from 'src/utils/rules'
-import { getAvatarUrl, isAxiosUnprocessableEntity } from 'src/utils/utils'
+import { getAvatarUrl, isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import DateSelect from '../../components/DateSelect'
 
 type FormData = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' | 'avatar'>
@@ -85,7 +85,7 @@ export default function Profile() {
       refetch()
       toast.success(res.data.message)
     } catch (error) {
-      if (isAxiosUnprocessableEntity<ErrorResponse<FormError>>(error)) {
+      if (isAxiosUnprocessableEntityError<ErrorResponse<FormError>>(error)) {
         const fomrError = error.response?.data.data
         if (fomrError) {
           Object.keys(fomrError).forEach(key => {

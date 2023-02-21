@@ -11,7 +11,7 @@ import path from 'src/constants/path'
 import { AppContext } from 'src/contexts/app.context'
 import { ErrorResponse } from 'src/types/utils.type'
 import { schema, Schema } from 'src/utils/rules'
-import { isAxiosUnprocessableEntity } from 'src/utils/utils'
+import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 
 type FormData = Pick<Schema, 'email' | 'password' | 'confirm_password'>
 const registerSchema = schema.pick(['email', 'password', 'confirm_password'])
@@ -41,7 +41,7 @@ export default function Register() {
         navigate('/')
       },
       onError(error) {
-        if (isAxiosUnprocessableEntity<ErrorResponse<Omit<FormData, 'confirm_password'>>>(error)) {
+        if (isAxiosUnprocessableEntityError<ErrorResponse<Omit<FormData, 'confirm_password'>>>(error)) {
           const fomrError = error.response?.data.data
           if (fomrError) {
             Object.keys(fomrError).forEach(key => {
@@ -69,6 +69,7 @@ export default function Register() {
                 type='email'
                 className='mt-8'
                 errorMessage={errors.email?.message}
+                classNameEye='top-[12px] absolute right-[5px] h-5 w-5 cursor-pointer'
                 placeholder='Email'
               />
               <Input
@@ -77,6 +78,7 @@ export default function Register() {
                 type='password'
                 className='mt-2'
                 errorMessage={errors.password?.message}
+                classNameEye='top-[12px] absolute right-[5px] h-5 w-5 cursor-pointer'
                 placeholder='Password'
                 autoComplete='on'
               />
@@ -86,6 +88,7 @@ export default function Register() {
                 type='password'
                 className='mt-2'
                 errorMessage={errors.confirm_password?.message}
+                classNameEye='top-[12px] absolute right-[5px] h-5 w-5 cursor-pointer'
                 placeholder='Confirm Password'
                 autoComplete='on'
               />

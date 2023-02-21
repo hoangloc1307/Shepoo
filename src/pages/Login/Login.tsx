@@ -10,7 +10,7 @@ import path from 'src/constants/path'
 import { AppContext } from 'src/contexts/app.context'
 import { ErrorResponse } from 'src/types/utils.type'
 import { Schema, schema } from 'src/utils/rules'
-import { isAxiosUnprocessableEntity } from 'src/utils/utils'
+import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 
 type FormData = Pick<Schema, 'email' | 'password'>
 const loginSchema = schema.pick(['email', 'password'])
@@ -39,7 +39,7 @@ export default function Login() {
         navigate('/')
       },
       onError(error) {
-        if (isAxiosUnprocessableEntity<ErrorResponse<FormData>>(error)) {
+        if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
           const fomrError = error.response?.data.data
           if (fomrError) {
             Object.keys(fomrError).forEach(key => {
@@ -66,6 +66,7 @@ export default function Login() {
                 register={register}
                 type='email'
                 className='mt-8'
+                classNameEye='top-[12px] absolute right-[5px] h-5 w-5 cursor-pointer'
                 errorMessage={errors.email?.message}
                 placeholder='Email'
               />
@@ -74,6 +75,7 @@ export default function Login() {
                 register={register}
                 type='password'
                 className='mt-2'
+                classNameEye='top-[12px] absolute right-[5px] h-5 w-5 cursor-pointer'
                 errorMessage={errors.password?.message}
                 placeholder='Password'
                 autoComplete='on'

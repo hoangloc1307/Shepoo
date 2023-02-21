@@ -6,8 +6,13 @@ export const setAccessTokenToLocalStorage = (accessToken: string) => {
   localStorage.setItem('access_token', accessToken)
 }
 
+export const setRefreshTokenToLocalStorage = (refreshToken: string) => {
+  localStorage.setItem('refresh_token', refreshToken)
+}
+
 export const clearLocalStorage = () => {
   localStorage.removeItem('access_token')
+  localStorage.removeItem('refresh_token')
   localStorage.removeItem('profile')
 
   const clearLocalStorageEvent = new Event('clearLocalStorage')
@@ -16,6 +21,10 @@ export const clearLocalStorage = () => {
 
 export const getAccessTokenFromLocalStorage = () => {
   return localStorage.getItem('access_token') || ''
+}
+
+export const getRefreshTokenFromLocalStorage = () => {
+  return localStorage.getItem('refresh_token') || ''
 }
 
 export const getProfileFromLocalStorage = () => {

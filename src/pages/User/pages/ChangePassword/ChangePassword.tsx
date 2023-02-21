@@ -8,7 +8,7 @@ import Button from 'src/components/Button'
 import Input from 'src/components/Input'
 import { ErrorResponse } from 'src/types/utils.type'
 import { userSchema, UserSchema } from 'src/utils/rules'
-import { isAxiosUnprocessableEntity } from 'src/utils/utils'
+import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 
 type FormData = Pick<UserSchema, 'password' | 'new_password' | 'confirm_password'>
 
@@ -38,7 +38,7 @@ export default function ChangePassword() {
       toast.success(res.data.message)
       reset()
     } catch (error) {
-      if (isAxiosUnprocessableEntity<ErrorResponse<FormData>>(error)) {
+      if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
         const fomrError = error.response?.data.data
         if (fomrError) {
           Object.keys(fomrError).forEach(key => {
@@ -70,7 +70,6 @@ export default function ChangePassword() {
                 placeholder='Mật khẩu cũ'
                 errorMessage={errors.password?.message}
                 classNameInput=' w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm'
-                className='relative'
               />
             </div>
           </div>
@@ -84,7 +83,6 @@ export default function ChangePassword() {
                 placeholder='Mật khẩu mới'
                 errorMessage={errors.new_password?.message}
                 classNameInput=' w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm'
-                className='relative'
               />
             </div>
           </div>
@@ -98,7 +96,6 @@ export default function ChangePassword() {
                 placeholder='Xác nhận mật khẩu mới'
                 errorMessage={errors.confirm_password?.message}
                 classNameInput=' w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm'
-                className='relative'
               />
             </div>
           </div>
