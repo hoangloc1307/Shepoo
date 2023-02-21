@@ -34,7 +34,7 @@ export default function ChangePassword() {
 
   const onSubmit = handleSubmit(async data => {
     try {
-      const res = await updateMutation.mutateAsync(omit(data, ['confirm_password']) as any)
+      const res = await updateMutation.mutateAsync(omit(data, ['confirm_password']))
       toast.success(res.data.message)
       reset()
     } catch (error) {
@@ -43,7 +43,7 @@ export default function ChangePassword() {
         if (fomrError) {
           Object.keys(fomrError).forEach(key => {
             setError(key as keyof FormData, {
-              message: fomrError[key as keyof FormData] as any,
+              message: fomrError[key as keyof FormData],
               type: 'Server',
             })
           })

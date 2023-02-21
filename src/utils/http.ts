@@ -2,7 +2,6 @@ import axios, { AxiosError, AxiosInstance, HttpStatusCode, InternalAxiosRequestC
 import { toast } from 'react-toastify'
 import { URL_LOGIN, URL_LOGOUT, URL_REFRESH_TOKEN, URL_REGISTER } from 'src/apis/auth.api'
 import config from 'src/constants/config'
-import path from 'src/constants/path'
 import { AuthResponse, RefreshTokenResponse } from 'src/types/auth.type'
 import { ErrorResponse } from 'src/types/utils.type'
 import {
@@ -15,7 +14,7 @@ import {
 } from './auth'
 import { isAxiosExpiredTokenError, isAxiosUnauthorizedError } from './utils'
 
-class Http {
+export class Http {
   instance: AxiosInstance
   private accessToken: string
   private refreshToken: string
@@ -30,8 +29,8 @@ class Http {
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json',
-        'expire-access-token': 10,
-        'expire-refresh-token': 60 * 60,
+        'expire-access-token': 60 * 5,
+        'expire-refresh-token': 60 * 60 * 24 * 30,
       },
     })
 
