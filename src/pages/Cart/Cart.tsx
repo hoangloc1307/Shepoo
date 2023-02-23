@@ -1,6 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
-// eslint-disable-next-line import/no-named-as-default
-import produce from 'immer'
+import { produce } from 'immer'
 import keyBy from 'lodash/keyBy'
 import { useContext, useEffect, useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'

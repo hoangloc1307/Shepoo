@@ -31,6 +31,7 @@ export default function AsideFilter({ categories, queryConfig }: AsideFilterProp
     control,
     handleSubmit,
     trigger,
+    reset,
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
@@ -53,6 +54,7 @@ export default function AsideFilter({ categories, queryConfig }: AsideFilterProp
   })
 
   const handleRemoveFilter = () => {
+    reset()
     navigate({
       pathname: path.home,
       search: createSearchParams(
